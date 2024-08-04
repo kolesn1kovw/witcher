@@ -2,32 +2,205 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+
+
+
+@layer base {
+
+  html {
+    height: 100%;
+  }
+  body {
+    @apply font-primary bg-primary text-white leading-loose;
+  }
+
+  body {
+    min-height: 100%;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next  {
+    position: static !important;
+  }
+  
+  
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    display: none;
+  }
+
+
+  .swiper-button-prev svg,
+  .swiper-button-next svg {
+    width: auto !important;
+    height: auto !important;
+    color: #EC3F3F;
+    transition:color 0.25s linear;
+  }
+
+
+  .swiper-button-prev:hover,
+  .swiper-button-next:hover  {
+    filter: drop-shadow(0px 2px 12px #FF1E1E);
+  }
+
+  .swiper-button-prev:hover svg,
+  .swiper-button-next:hover svg  {
+    color :#FF1E1E ;
+  }
+
+  @media (max-width: 640px) {
+    .swiper-button-prev svg,
+  .swiper-button-next svg {
+    width: 16px !important;
+    height: 28px !important;
+
+  }
+  }
+
+  .swiper-button-disabled {
+    opacity: 0.3 !important;
+
+  }
+  .swiper-button-prev.swiper-button-disabled svg path {
+    fill: white !important
+  }
+  .swiper-button-next.swiper-button-disabled svg path {
+    fill: white !important
+  }
+
+ 
+  .swiper-pagination {
+    position: static !important;
+    width: 100% !important;
+    background: rgba(255,255,255,0.3) !important;
+    height: 2px !important;
+  }
+  .swiper-pagination .swiper-pagination-progressbar-fill {
+    background: #EC3F3F !important;
+  }
+
+ [class*="ymaps-2"][class*="-ground-pane"] {
+  filter: grayscale(100%) brightness(0.70);
+  opacity: 0.9 ;
+ }
+
+ [class*="copyrights-pane"] {
+  display: none !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+[class*="controls-pane"] {
+  display: none !important;
+}
+
+
+ .social path {
+  transition: fill 0.25s linear;
+ }
+
+ .social:hover path {
+  fill: #FF1E1E;
+ }
+
+ .social:hover .white {
+  fill: white;
+ }
+
+
+ .wrapper-photos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+ }
+
+ .div1 { grid-area: 1 / 1 / 4 / 3; }
+.div2 { grid-area: 1 / 3 / 2 / 4; }
+.div3 { grid-area: 1 / 4 / 2 / 5; }
+.div4 { grid-area: 2 / 3 / 3 / 4; }
+.div5 { grid-area: 2 / 4 / 3 / 5; }
+
+
+.wrapper-frames {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 282px 282px;
+  gap: 24px;
+}
+
+
+.wrapper-frames div  {
+  overflow: hidden;
+  min-height: 282px;
+}
+
+
+
+.wrapper-frames div img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.25s linear;
+}
+
+
+
+
+.wrapper-frames div:hover img  {
+transform: scale(1.05);
+}
+
+
+.wrapper-frames div:first-child {
+  grid-column: 1 / 3;
+  grid-row: 1 / span 2;
+
+}
+
+.wrapper-frames div:nth-child(2) {
+  grid-column: 3;
+  grid-row: 1 / 1;
+
+}
+
+
+@media (max-width: 1023px) {
+
+  .wrapper-frames {
+    grid-template-rows: 150px 150px;
+    gap: 16px;
+  }
+  .wrapper-frames div  {
+    min-height: 150px;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@media (max-width: 639px) {
+
+  .wrapper-frames {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 16px;
+  }
+  .wrapper-frames div  {
+    height: 212px;
+  }
+
+  .wrapper-frames div:first-child {
+    grid-column: 1;
+    grid-row: 1;
+  
+  }
+  
+  .wrapper-frames div:nth-child(2) {
+    grid-column: 1;
+    grid-row: 2;
+  
   }
 }
+}
+  
+

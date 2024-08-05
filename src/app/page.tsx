@@ -9,7 +9,7 @@ const Home = () => {
       <HeroSection />
       <ActorsSection />
       <FramesFilm />
-      {/* <MapSection /> */}
+      <MapSection />
     </main>
   );
 };

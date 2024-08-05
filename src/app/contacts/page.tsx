@@ -5,17 +5,26 @@ import Link from 'next/link';
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Value } from '@radix-ui/react-select';
+
+interface ISelectOption {
+  value: string;
+  label: string;
+}
+
+const selectOption: ISelectOption[] = [
+  { value: 'moscow', label: 'Москва' },
+  { value: 'saint-petersburg', label: 'Санкт-Питербург' },
+  { value: 'kazan', label: 'Казань' },
+  { value: 'krasnodar', label: 'Краснодар' },
+  { value: 'rostov-na-dony', label: 'Ростов на дону' },
+];
 
 const contacts = [
   {
@@ -31,14 +40,6 @@ const contacts = [
     value: 'Пн-Пт с 10:00 до 22:00',
   },
 ];
-
-enum CityEnum {
-  moscow = 'Москва',
-  saintPetersburg = 'Санкт-Питербург',
-  kazan = 'Казань',
-  krasnodar = 'Краснодар',
-  rostovNaDony = 'Ростов на дону',
-}
 
 interface IFormInput {
   city: string;
@@ -106,15 +107,11 @@ const Contacts: FC = () => {
                         <SelectValue placeholder="Выберете город" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="moscow">Москва</SelectItem>
-                        <SelectItem value="saint-petersburg">
-                          Санкт-Питербург
-                        </SelectItem>
-                        <SelectItem value="kazan">Казань</SelectItem>
-                        <SelectItem value="krasnodar">Краснодар</SelectItem>
-                        <SelectItem value="rostov-na-dony">
-                          Ростов на дону
-                        </SelectItem>
+                        {selectOption.map(({ value, label }, index) => (
+                          <SelectItem key={index} value={value}>
+                            {label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     {errors.city && (

@@ -50,10 +50,23 @@ const Footer: FC = () => {
           <AlertDialogTrigger className="block text-left sm:text-center mt-[32px] sm:mt-[0] order-3 sm:order-2 sm:inline-block opacity-[0.7] underline max-w-full w-full sm:max-w-[183px] text-[14px] leading-[20px] transition-opacity linear duration-[250] hover:opacity-[1] ">
             Политика обработки персональных данных
           </AlertDialogTrigger>
-          <AlertDialogContent>
+          <AlertDialogContent className="max-h-full sm:max-h-[calc(100vh-100px)] w-full sm:w-[calc(100vw-48px)] overflow-y-auto py-[50px]">
             <AlertDialogHeader>
-              <AlertDialogTitle>Обработка данных</AlertDialogTitle>
-              <AlertDialogDescription>123</AlertDialogDescription>
+              <AlertDialogTitle className="mb-[15px] leading-[24px] lg:mb-[32px] text-left text-[24px] sm:text-[32px] sm:leading-[40px] lg:text-[40px] lg:leading-[48px]">
+                Обработка данных
+              </AlertDialogTitle>
+              <div className="text-black flex flex-col items-start gap-[23px] sm:gap-[32px] lg:gap-[64px]">
+                {politicContent.map((point, index) => (
+                  <div key={index}>
+                    <h5 className="mb-[30px] text-black text-[16px] text-left font-medium leading-[20px]">
+                      {point.title}
+                    </h5>
+                    <p className="text-black text-[16px] text-left leading-[20px] font-normal">
+                      {point.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>

@@ -1,7 +1,7 @@
 import { API_URL } from '@/config/constants';
 import { Frame } from '@/types/frame';
 
-export const getPosts = async (offset: number, limit: number) => {
+export const getFrames = async (offset: number, limit: number) => {
   const url = `${API_URL}?page=${offset}&limit=${limit}`;
 
   try {

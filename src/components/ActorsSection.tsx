@@ -1,10 +1,9 @@
 'use client';
-import { FC, use } from 'react';
+import { FC, useEffect, useState } from 'react';
+import type { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-import { usePathname } from 'next/navigation';
-
-import { actors } from '@/mockdata/actors';
+import { Navigation, Pagination } from 'swiper/modules';
 
 import SlideActor from './SlideActor';
 
@@ -17,7 +16,14 @@ import 'swiper/css/scrollbar';
 import './style/actors.css';
 
 const ActorsSection: FC = () => {
-  const pathname = usePathname();
+  const [refreshSlider, setRefreshSlider] = useState<boolean>(true);
+  const actors = useSelector((state: RootState) => state.actors);
+
+  useEffect(() => {
+    setRefreshSlider(true);
+    return setRefreshSlider(false);
+  }, []);
+
   return (
     <section className="mb-[64px] lg:mb-[72px]">
       <div className="container mx-auto">
@@ -56,35 +62,41 @@ const ActorsSection: FC = () => {
             </div>
           </div>
         </div>
-        <div className="swiper-pagination mb-[24px] lg:mb-[32px]"></div>
+        <div className="swiper-pagination mb-[24px] lg:mb-[32px] swiper-pagination-progressbar swiper-pagination-horizontal"></div>
       </div>
-
       <div className="actors__slider w-full relative">
-        <Swiper
-          modules={[Navigation, Scrollbar, Pagination, A11y]}
-          spaceBetween={16}
-          slidesPerView={'auto'}
-          navigation={{
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-          }}
-          pagination={{
-            el: '.swiper-pagination',
-            type: 'progressbar',
-          }}
-          breakpoints={{
-            640: {
-              spaceBetween: 24,
-            },
-          }}
-          className="w-full"
-        >
-          {actors.map(({ id, ...actor }) => (
-            <SwiperSlide key={id}>
-              <SlideActor {...actor} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {!refreshSlider && (
+          <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={16}
+            slidesPerView={'auto'}
+            navigation={{
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            }}
+            pagination={{
+              el: '.swiper-pagination',
+              type: 'progressbar',
+            }}
+            breakpoints={{
+              640: {
+                spaceBetween: 24,
+              },
+            }}
+            on={{
+              init: () => {
+                console.log(1);
+              },
+            }}
+            className="w-full"
+          >
+            {actors.map(({ id, ...actor }) => (
+              <SwiperSlide key={id}>
+                <SlideActor {...actor} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </div>
     </section>
   );

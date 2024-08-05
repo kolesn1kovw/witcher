@@ -8,6 +8,7 @@ import PageAnimation from '@/components/PageAnimation';
 import StairAnimation from '@/components/StairAnimation';
 
 import Footer from '@/components/Footer';
+import StoreProvider from '@/store/StoreProvide';
 
 const FuturaPT = localFont({
   src: [
@@ -54,13 +55,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${FuturaPT.variable} flex flex-col`}>
-        <Header />
-        <StairAnimation />
-        <PageAnimation className="content">{children}</PageAnimation>
-        <Footer />
-      </body>
-    </html>
+    <StoreProvider>
+      <html lang="en">
+        <body className={`${FuturaPT.variable} flex flex-col`}>
+          <Header />
+          <StairAnimation />
+          <PageAnimation className="content">{children}</PageAnimation>
+          <Footer />
+        </body>
+      </html>
+    </StoreProvider>
   );
 }

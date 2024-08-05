@@ -1,32 +1,40 @@
 'use client';
 
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Frame } from '@/types/frame';
 import { Button } from './ui/button';
-import { useState } from 'react';
-import { getPosts } from '@/actions/get-post';
+import { getFrames } from '@/actions/get-frames';
 import { POST_PER_PAGE } from '@/config/constants';
 
-import 'lightbox.js-react/dist/index.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchFrames } from '@/store/slices/framesSlice';
 
-type PostListProps = {
-  initialPosts: Frame[];
-};
+import type { AppDispatch, RootState } from '@/store/store';
 
-const FramesList = ({ initialPosts }: PostListProps) => {
-  const [frames, setFrames] = useState<Frame[]>(initialPosts);
+const FramesList = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const framesFetched = useSelector((state: RootState) => state.frames.frames);
+  const [frames, setFrames] = useState<Frame[]>([]);
   const [currentOffset, setCurrentOffset] = useState<number>(POST_PER_PAGE);
   const [hasMoreData, setHasMoreData] = useState<boolean>(true);
 
-  const loadMorePosts = async () => {
-    const apiFrames = await getPosts(currentOffset, POST_PER_PAGE);
+  useEffect(() => {
+    dispatch(fetchFrames({ offset: 1, limit: 5 }));
+  }, [dispatch]);
 
-    if (!apiFrames.length || apiFrames.length < 5) {
+  useEffect(() => {
+    setFrames(framesFetched);
+  }, [framesFetched]);
+
+  const loadMoreFrames = async () => {
+    const apiFrames = await getFrames(currentOffset, POST_PER_PAGE);
+
+    if (!apiFrames.length || apiFrames.length < POST_PER_PAGE) {
       setHasMoreData(false);
     }
 
-    setFrames((prevFrame) => [...prevFrame, ...apiFrames]);
+    setFrames((prevFrames) => [...prevFrames, ...apiFrames]);
     setCurrentOffset((prevCurrentOffset) => prevCurrentOffset + POST_PER_PAGE);
   };
 
@@ -40,7 +48,7 @@ const FramesList = ({ initialPosts }: PostListProps) => {
         ))}
       </div>
       {hasMoreData && (
-        <Button onClick={loadMorePosts} className="w-full">
+        <Button onClick={loadMoreFrames} className="w-full">
           Показать еще
         </Button>
       )}
